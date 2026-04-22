@@ -4,7 +4,25 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="m_Settings">SETTINGS</sys:String>
     <sys:String x:Key="m_ChooseLang">Choose language:</sys:String>
-    <sys:String x:Key="m_Back">BACK</sys:String>
     <sys:String x:Key="m_Start">START</sys:String>
     <sys:String x:Key="m_Exit">EXIT</sys:String>
+    <sys:String x:Key="m_Lvl">LVL</sys:String>
+    <sys:String x:Key="m_CharNamePlaceholder">Character Name</sys:String>
+    <sys:String x:Key="m_CharRacePlaceholder">Race and Class</sys:String>
+    <sys:String x:Key="m_HitPoints">Hit Points</sys:String>
+    <sys:String x:Key="m_Heal">Heal</sys:String>
+    <sys:String x:Key="m_Damage">Damage</sys:String>
+    <sys:String x:Key="m_Proficiency">Proficiency</sys:String>
+    <sys:String x:Key="m_Str">Strength</sys:String>
+    <sys:String x:Key="m_Dex">Dexterity</sys:String>
+    <sys:String x:Key="m_Con">Constitution</sys:String>
+    <sys:String x:Key="m_Int">Intelligence</sys:String>
+    <sys:String x:Key="m_Wis">Wisdom</sys:String>
+    <sys:String x:Key="m_Cha">Charisma</sys:String>
+    <sys:String x:Key="m_ArmorClass">Armor Class</sys:String>
+    <sys:String x:Key="m_Initiative">Initiative</sys:String>
+    <sys:String x:Key="m_Speed">Speed</sys:String>
+    <sys:String x:Key="m_Back">← Back</sys:String>
+    <sys:String x:Key="m_Backstory">BACKSTORY</sys:String>
+    <sys:String x:Key="m_AlliesNotes">ALLIES &amp; NOTES</sys:String>
 </ResourceDictionary>

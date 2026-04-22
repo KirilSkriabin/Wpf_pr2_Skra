@@ -15,7 +15,7 @@
             Margin="100"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Background="#1E1E1E"
+            Background="#121212"
             CornerRadius="20">
 
             <Border.Effect>

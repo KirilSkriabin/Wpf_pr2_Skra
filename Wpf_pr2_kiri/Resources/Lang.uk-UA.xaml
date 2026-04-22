@@ -4,7 +4,25 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="m_Settings">НАЛАШТУВАННЯ</sys:String>
     <sys:String x:Key="m_ChooseLang">Оберіть мову:</sys:String>
-    <sys:String x:Key="m_Back">НАЗАД</sys:String>
     <sys:String x:Key="m_Start">СТАРТ</sys:String>
     <sys:String x:Key="m_Exit">ВИХІД</sys:String>
+    <sys:String x:Key="m_Lvl">Рівень</sys:String>
+    <sys:String x:Key="m_CharNamePlaceholder">Ім'я персонажа</sys:String>
+    <sys:String x:Key="m_CharRacePlaceholder">Раса та Клас</sys:String>
+    <sys:String x:Key="m_HitPoints">Хіт-поінти</sys:String>
+    <sys:String x:Key="m_Heal">Лікувати</sys:String>
+    <sys:String x:Key="m_Damage">Урон</sys:String>
+    <sys:String x:Key="m_Proficiency">Майстерність</sys:String>
+    <sys:String x:Key="m_Str">Сила</sys:String>
+    <sys:String x:Key="m_Dex">Спритність</sys:String>
+    <sys:String x:Key="m_Con">Статура</sys:String>
+    <sys:String x:Key="m_Int">Інтелект</sys:String>
+    <sys:String x:Key="m_Wis">Мудрість</sys:String>
+    <sys:String x:Key="m_Cha">Харизма</sys:String>
+    <sys:String x:Key="m_ArmorClass">Захист</sys:String>
+    <sys:String x:Key="m_Initiative">Ініціатива</sys:String>
+    <sys:String x:Key="m_Speed">Швидкість</sys:String>
+    <sys:String x:Key="m_Back">← Назад</sys:String>
+    <sys:String x:Key="m_Backstory">ІСТОРІЯ</sys:String>
+    <sys:String x:Key="m_AlliesNotes">СОЮЗНИКИ ТА НОТАТКИ</sys:String>
 </ResourceDictionary>

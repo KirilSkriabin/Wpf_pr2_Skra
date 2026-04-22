@@ -37,7 +37,7 @@ namespace Wpf_pr2_kiri
 
         private void BtnStart_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationService.Navigate(new Views.CharacterSheetPage());
         }
     }
 }
