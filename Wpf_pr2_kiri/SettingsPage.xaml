@@ -15,7 +15,7 @@
             MinWidth="350"
             MinHeight="450"
             Margin="100"
-            Background="#1E1E1E"
+            Background="#BABABA"
             CornerRadius="20">
 
             <Border.Effect>
@@ -55,7 +55,7 @@
 
                 <Button
                     Height="55"
-                    Background="#2D2D2D"
+                    Background="#8A8A8A"
                     Click="BtnBack_Click"
                     Content="{DynamicResource m_Back}"
                     Foreground="White">

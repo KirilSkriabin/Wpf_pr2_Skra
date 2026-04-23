@@ -10,7 +10,7 @@
     Height="800"
     MinWidth="700"
     MinHeight="550"
-    Background="#404040"
+    Background="#E0E0E0"
     mc:Ignorable="d">
     <Grid>
         <Frame Name="MainFrame" NavigationUIVisibility="Hidden" />

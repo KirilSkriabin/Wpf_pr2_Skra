@@ -15,7 +15,7 @@
             Margin="100"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Background="#121212"
+            Background="#BABABA"
             CornerRadius="20">
 
             <Border.Effect>
@@ -45,7 +45,7 @@
                     Width="300"
                     Height="55"
                     Margin="0,8"
-                    Background="#2D2D2D"
+                    Background="#DEDEDE"
                     BorderBrush="#3D3D3D"
                     BorderThickness="1"
                     Click="BtnStart_Click"
@@ -65,7 +65,7 @@
                     Width="300"
                     Height="55"
                     Margin="0,8"
-                    Background="#2D2D2D"
+                    Background="#DEDEDE"
                     BorderBrush="#3D3D3D"
                     BorderThickness="1"
                     Click="BtnSettings_Click"
