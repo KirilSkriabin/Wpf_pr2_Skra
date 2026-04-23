@@ -30,12 +30,12 @@ namespace Wpf_pr2_kiri.Views
             UpdateProficiency();
             LoadData();
         }
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e) // 1. Заборона введення всього, крім цифр
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e) // Заборона введення всього, крім цифр
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)// 2. Очищення поля при фокусі (для зручності)
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)// Очищення поля при фокусі (для зручності)
         {
             TextBox tb = (TextBox)sender;
             tb.Text = string.Empty;
@@ -231,7 +231,6 @@ namespace Wpf_pr2_kiri.Views
                 var data = new CharacterData
                 {
                     CharacterName = TxtCharName.Text,
-                    // Оновлено: тепер беремо дані з TxtCharRaceClass
                     CharacterClass = TxtCharRaceClass.Text,
                     Level = TxtLevel.Text,
 
@@ -265,18 +264,18 @@ namespace Wpf_pr2_kiri.Views
         {
             string filePath = "character_save.json";
 
-            // Перевіряємо, чи існує файл взагалі
+            // Перевіряємо, чи існує файл
             if (File.Exists(filePath))
             {
                 try
                 {
-                    // 1. Читаємо текст із файлу
+                    // Читає текст із файлу
                     string jsonString = File.ReadAllText(filePath);
 
-                    // 2. Створюємо об'єкт 'data', десеріалізуючи JSON
+                    // Створює об'єкт 'data', десеріалізуючи JSON
                     var data = JsonSerializer.Deserialize<CharacterData>(jsonString);
 
-                    // 3. Тепер 'data' існує, і ми можемо заповнювати поля
+                    // Тепер 'data' існує, можемо заповнювати поля
                     if (data != null)
                     {
                         TxtCharName.Text = data.CharacterName;
@@ -295,7 +294,7 @@ namespace Wpf_pr2_kiri.Views
                         TxtBaseArmor.Text = data.ArmorClass;
                         TxtSpeed.Text = data.Speed;
                         TxtBonusIni.Text = data.Initiative;
-                        LblProfBonus.Text = data.ProficiencyBonus; // Для Label використовуємо Content
+                        LblProfBonus.Text = data.ProficiencyBonus;
 
                         TxtBackstory.Text = data.Backstory;
                         TxtAlliesNotes.Text = data.AlliesNotes;
