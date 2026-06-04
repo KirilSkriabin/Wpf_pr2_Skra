@@ -42,13 +42,9 @@ namespace Wpf_pr2_kiri
         private void ChangeLanguage(string lang)
         {
             ResourceDictionary dict = new ResourceDictionary();
-
-            // Шлях до файлів. Переконайся, що папка Resources називається саме так!
             dict.Source = new Uri($"/Resources/Lang.{lang}.xaml", UriKind.Relative);
-
-            // Видаляємо стару мову і додаємо нову
             Application.Current.Resources.MergedDictionaries.Clear();
             Application.Current.Resources.MergedDictionaries.Add(dict);
-        }   
+        }
     }
 }

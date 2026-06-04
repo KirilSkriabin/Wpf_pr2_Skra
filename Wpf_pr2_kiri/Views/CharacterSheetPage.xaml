@@ -87,7 +87,7 @@
                             </Style>
                         </TabControl.Resources>
 
-                        <TabItem Header="General 👤">
+                        <TabItem Header="{DynamicResource m_TabGeneral}">
                             <Grid Margin="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="180" />
@@ -146,7 +146,8 @@
                                                     Foreground="#666"
                                                     GotFocus="TextBox_GotFocus"
                                                     LostFocus="Race_LostFocus"
-                                                    Text="{DynamicResource m_CharRacePlaceholder}" TextChanged="TxtCharRaceClass_TextChanged" />
+                                                    Text="{DynamicResource m_CharRacePlaceholder}"
+                                                    TextChanged="TxtCharRaceClass_TextChanged" />
                                             </StackPanel>
                                         </Grid>
                                     </Border>
@@ -240,7 +241,7 @@
                                                         <TextBlock
                                                             FontSize="8"
                                                             Foreground="#555"
-                                                            Text="Prof: " />
+                                                            Text="{DynamicResource m_Prof}" />
                                                         <TextBlock
                                                             x:Name="LblProfBonus"
                                                             FontSize="8"
@@ -633,83 +634,881 @@
                                     <StackPanel Margin="0,15,0,0" Orientation="Horizontal" />
                                 </StackPanel>
 
-                                <Grid
-                                    x:Name="RollOverlay"
-                                    Grid.ColumnSpan="2"
-                                    Background="#A6000000"
-                                    Visibility="Collapsed">
-                                    <Border
-                                        Width="130"
-                                        Height="130"
-                                        HorizontalAlignment="Center"
+
+                            </Grid>
+                        </TabItem>
+
+                        <TabItem Header="{DynamicResource m_TabAttacks}">
+                            <Grid Margin="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <!--  Панель: фільтр + кнопка додавання  -->
+                                <Grid Grid.Row="0" Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--  Порожній простір зліва  -->
+                                    <TextBlock Grid.Column="0" />
+
+                                    <!--  Фільтр по рівню  -->
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="0,0,8,0"
                                         VerticalAlignment="Center"
-                                        Background="#2D2D2D"
-                                        CornerRadius="12">
-                                        <StackPanel VerticalAlignment="Center">
+                                        Orientation="Horizontal">
+                                        <TextBlock
+                                            Margin="0,0,6,0"
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Foreground="#888"
+                                            Text="{DynamicResource m_FilterLabel}" />
+                                        <ComboBox
+                                            x:Name="CmbAttackFilter"
+                                            Width="110"
+                                            Padding="5,3"
+                                            Background="#1e1e1e"
+                                            Foreground="Black"
+                                            SelectionChanged="CmbAttackFilter_SelectionChanged">
+                                            <ComboBoxItem Content="All" IsSelected="True" />
+                                            <ComboBoxItem Content="WEAPON" />
+                                            <ComboBoxItem Content="CANTRIP" />
+                                            <ComboBoxItem Content="1ST LEVEL" />
+                                            <ComboBoxItem Content="2ND LEVEL" />
+                                            <ComboBoxItem Content="3RD LEVEL" />
+                                            <ComboBoxItem Content="4TH LEVEL" />
+                                            <ComboBoxItem Content="5TH LEVEL" />
+                                            <ComboBoxItem Content="6TH LEVEL" />
+                                            <ComboBoxItem Content="7TH LEVEL" />
+                                            <ComboBoxItem Content="8TH LEVEL" />
+                                            <ComboBoxItem Content="9TH LEVEL" />
+                                        </ComboBox>
+                                    </StackPanel>
+
+                                    <!--  Кнопка додавання  -->
+                                    <Button
+                                        x:Name="BtnOpenAddForm"
+                                        Grid.Column="2"
+                                        Padding="10,5"
+                                        HorizontalAlignment="Right"
+                                        Background="#2b5c8f"
+                                        BorderThickness="0"
+                                        Click="BtnOpenAddForm_Click"
+                                        Content="{DynamicResource m_AddAttack}"
+                                        FontWeight="Bold"
+                                        Foreground="White">
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="5" />
+                                            </Style>
+                                        </Button.Resources>
+                                    </Button>
+                                </Grid>
+
+                                <!--  Список атак  -->
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl x:Name="AttacksItemsControl">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border
+                                                    Margin="0,0,0,10"
+                                                    Padding="15"
+                                                    Background="#8A8A8A"
+                                                    CornerRadius="8">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <StackPanel Grid.Column="0">
+                                                            <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+                                                                <Image
+                                                                    Width="18"
+                                                                    Height="18"
+                                                                    Margin="0,0,8,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Source="/Images/swords_icon.png" />
+                                                                <TextBlock
+                                                                    VerticalAlignment="Center"
+                                                                    FontSize="18"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="White"
+                                                                    Text="{Binding Name}" />
+                                                                <Border
+                                                                    Margin="12,0,0,0"
+                                                                    Padding="6,2"
+                                                                    VerticalAlignment="Center"
+                                                                    Background="#333333"
+                                                                    CornerRadius="4">
+                                                                    <TextBlock
+                                                                        FontSize="11"
+                                                                        FontWeight="Bold"
+                                                                        Foreground="#AAAAAA"
+                                                                        Text="{Binding Level}" />
+                                                                </Border>
+                                                            </StackPanel>
+
+                                                            <WrapPanel Margin="0,0,0,10" Orientation="Horizontal">
+                                                                <TextBlock
+                                                                    Margin="0,0,2,0"
+                                                                    FontSize="12"
+                                                                    Foreground="White"
+                                                                    Text="CASTING TIME ➔ " />
+                                                                <TextBlock
+                                                                    Margin="0,0,15,0"
+                                                                    FontSize="12"
+                                                                    Foreground="White"
+                                                                    Text="{Binding CastingTime}" />
+
+                                                                <TextBlock
+                                                                    Margin="0,0,2,0"
+                                                                    FontSize="12"
+                                                                    Foreground="White"
+                                                                    Text="RANGE ➔ " />
+                                                                <TextBlock
+                                                                    Margin="0,0,15,0"
+                                                                    FontSize="12"
+                                                                    Foreground="White"
+                                                                    Text="{Binding Range}" />
+
+                                                                <TextBlock
+                                                                    Margin="0,0,2,0"
+                                                                    FontSize="12"
+                                                                    Foreground="White"
+                                                                    Text="DURATION ➔ " />
+                                                                <TextBlock
+                                                                    Margin="0,0,15,0"
+                                                                    FontSize="12"
+                                                                    Foreground="White"
+                                                                    Text="{Binding Duration}" />
+                                                            </WrapPanel>
+
+                                                            <WrapPanel Margin="0,0,0,10" Orientation="Horizontal">
+                                                                <TextBlock
+                                                                    Margin="0,0,2,0"
+                                                                    FontSize="12"
+                                                                    Foreground="White"
+                                                                    Text="COMPONENTS ➔ " />
+                                                                <TextBlock
+                                                                    Margin="0,0,15,0"
+                                                                    FontSize="12"
+                                                                    Foreground="White"
+                                                                    Text="{Binding Components}" />
+
+                                                                <TextBlock
+                                                                    Margin="0,0,5,0"
+                                                                    VerticalAlignment="Center"
+                                                                    FontSize="12"
+                                                                    Foreground="White"
+                                                                    Text="DAMAGE ➔ " />
+                                                                <Button
+                                                                    Padding="8,3"
+                                                                    Background="#D32F2F"
+                                                                    BorderThickness="0"
+                                                                    Click="BtnRollDamage_Click"
+                                                                    Content="{Binding Damage}"
+                                                                    Cursor="Hand"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="White">
+                                                                    <Button.Resources>
+                                                                        <Style TargetType="Border">
+                                                                            <Setter Property="CornerRadius" Value="4" />
+                                                                        </Style>
+                                                                    </Button.Resources>
+                                                                </Button>
+                                                            </WrapPanel>
+
+                                                            <TextBlock
+                                                                FontStyle="Italic"
+                                                                Foreground="White"
+                                                                Text="{Binding Description}"
+                                                                TextWrapping="Wrap" />
+                                                        </StackPanel>
+
+                                                        <Button
+                                                            Grid.Column="1"
+                                                            Margin="5,0,0,0"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Top"
+                                                            Background="Transparent"
+                                                            BorderThickness="0"
+                                                            Click="BtnDeleteAttack_Click"
+                                                            Content="✕"
+                                                            Cursor="Hand"
+                                                            FontSize="16"
+                                                            FontWeight="Bold"
+                                                            Foreground="#FF5555"
+                                                            ToolTip="Видалити атаку" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+
+                                <!--  Форма створення атаки  -->
+                                <Border
+                                    x:Name="AttackCreationForm"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Padding="15"
+                                    Panel.ZIndex="10"
+                                    Background="#8A8A8A"
+                                    CornerRadius="8"
+                                    Visibility="Collapsed">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <ScrollViewer
+                                            Grid.Row="0"
+                                            Margin="0,0,0,10"
+                                            VerticalScrollBarVisibility="Auto">
+                                            <StackPanel>
+                                                <StackPanel Margin="0,0,0,10">
+                                                    <TextBlock
+                                                        Margin="0,0,0,4"
+                                                        Foreground="White"
+                                                        Text="{DynamicResource m_AttackNameLabel}" />
+                                                    <TextBox
+                                                        x:Name="TxtAttackName"
+                                                        Padding="5"
+                                                        Background="#666"
+                                                        BorderBrush="#444"
+                                                        Foreground="White" />
+                                                </StackPanel>
+
+                                                <StackPanel
+                                                    Width="200"
+                                                    Margin="0,0,0,10"
+                                                    HorizontalAlignment="Left">
+                                                    <TextBlock
+                                                        Margin="0,0,0,4"
+                                                        Foreground="White"
+                                                        Text="{DynamicResource m_LevelLabel}" />
+                                                    <ComboBox
+                                                        x:Name="CmbAttackLevel"
+                                                        Padding="5"
+                                                        Background="#1e1e1e"
+                                                        Foreground="Black">
+                                                        <ComboBoxItem Content="WEAPON" IsSelected="True" />
+                                                        <ComboBoxItem Content="CANTRIP" />
+                                                        <ComboBoxItem Content="1ST LEVEL" />
+                                                        <ComboBoxItem Content="2ND LEVEL" />
+                                                        <ComboBoxItem Content="3RD LEVEL" />
+                                                        <ComboBoxItem Content="4TH LEVEL" />
+                                                        <ComboBoxItem Content="5TH LEVEL" />
+                                                        <ComboBoxItem Content="6TH LEVEL" />
+                                                        <ComboBoxItem Content="7TH LEVEL" />
+                                                        <ComboBoxItem Content="8TH LEVEL" />
+                                                        <ComboBoxItem Content="9TH LEVEL" />
+                                                    </ComboBox>
+                                                </StackPanel>
+
+                                                <UniformGrid Margin="0,0,0,10" Columns="3">
+                                                    <StackPanel Margin="0,0,10,0">
+                                                        <TextBlock
+                                                            Margin="0,0,0,4"
+                                                            Foreground="White"
+                                                            Text="{DynamicResource m_CastingTime}" />
+                                                        <TextBox
+                                                            x:Name="TxtCastingTime"
+                                                            Padding="5"
+                                                            Background="#666"
+                                                            BorderBrush="#444"
+                                                            Foreground="White"
+                                                            Text="n/a" />
+                                                    </StackPanel>
+                                                    <StackPanel Margin="0,0,10,0">
+                                                        <TextBlock
+                                                            Margin="0,0,0,4"
+                                                            Foreground="White"
+                                                            Text="{DynamicResource m_Range}" />
+                                                        <TextBox
+                                                            x:Name="TxtRange"
+                                                            Padding="5"
+                                                            Background="#666"
+                                                            BorderBrush="#444"
+                                                            Foreground="White"
+                                                            Text="n/a" />
+                                                    </StackPanel>
+                                                    <StackPanel>
+                                                        <TextBlock
+                                                            Margin="0,0,0,4"
+                                                            Foreground="White"
+                                                            Text="{DynamicResource m_Duration}" />
+                                                        <TextBox
+                                                            x:Name="TxtDuration"
+                                                            Padding="5"
+                                                            Background="#666"
+                                                            BorderBrush="#444"
+                                                            Foreground="White"
+                                                            Text="n/a" />
+                                                    </StackPanel>
+                                                </UniformGrid>
+
+                                                <StackPanel Margin="0,0,0,10">
+                                                    <TextBlock
+                                                        Margin="0,0,0,4"
+                                                        Foreground="White"
+                                                        Text="{DynamicResource m_Components}" />
+                                                    <WrapPanel VerticalAlignment="Center">
+                                                        <CheckBox
+                                                            x:Name="ChkV"
+                                                            Margin="0,0,15,0"
+                                                            VerticalAlignment="Center"
+                                                            Content="V"
+                                                            Foreground="White" />
+                                                        <CheckBox
+                                                            x:Name="ChkS"
+                                                            Margin="0,0,15,0"
+                                                            VerticalAlignment="Center"
+                                                            Content="S"
+                                                            Foreground="White" />
+                                                        <CheckBox
+                                                            x:Name="ChkM"
+                                                            Margin="0,0,15,0"
+                                                            VerticalAlignment="Center"
+                                                            Content="M"
+                                                            Foreground="White" />
+                                                        <TextBox
+                                                            x:Name="TxtMaterialComponent"
+                                                            Width="250"
+                                                            Padding="5"
+                                                            Background="#666"
+                                                            BorderBrush="#444"
+                                                            Foreground="White" />
+                                                    </WrapPanel>
+                                                </StackPanel>
+
+                                                <StackPanel
+                                                    Width="250"
+                                                    Margin="0,0,0,10"
+                                                    HorizontalAlignment="Left">
+                                                    <TextBlock
+                                                        Margin="0,0,0,4"
+                                                        Foreground="White"
+                                                        Text="{DynamicResource m_DamageDice}" />
+                                                    <TextBox
+                                                        x:Name="TxtDamage"
+                                                        Padding="5"
+                                                        Background="#666"
+                                                        BorderBrush="#444"
+                                                        Foreground="White"
+                                                        Text="n/a" />
+                                                </StackPanel>
+
+                                                <StackPanel Margin="0,0,0,5">
+                                                    <TextBlock
+                                                        Margin="0,0,0,4"
+                                                        Foreground="White"
+                                                        Text="{DynamicResource m_DescriptionEffects}" />
+                                                    <TextBox
+                                                        x:Name="TxtDescription"
+                                                        Height="65"
+                                                        Padding="5"
+                                                        AcceptsReturn="True"
+                                                        Background="#666"
+                                                        BorderBrush="#444"
+                                                        Foreground="White"
+                                                        TextWrapping="Wrap" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </ScrollViewer>
+
+                                        <Border
+                                            Grid.Row="1"
+                                            Padding="0,10,0,0"
+                                            Background="#8A8A8A">
+                                            <Grid>
+                                                <Button
+                                                    x:Name="BtnCancel"
+                                                    Padding="15,5"
+                                                    HorizontalAlignment="Left"
+                                                    Background="#444"
+                                                    Click="BtnCancel_Click"
+                                                    Content="{DynamicResource m_Cancel}"
+                                                    Foreground="White" />
+                                                <Button
+                                                    x:Name="BtnDone"
+                                                    Padding="25,7"
+                                                    HorizontalAlignment="Right"
+                                                    Background="#2b5c8f"
+                                                    Click="BtnDone_Click"
+                                                    Content="{DynamicResource m_Done}"
+                                                    FontWeight="Bold"
+                                                    Foreground="White" />
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </TabItem>
+
+                        <TabItem Header="{DynamicResource m_TabItems}">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <!--  Ліва 1/3: Валюта  -->
+                                    <ColumnDefinition Width="1*" />
+                                    <!--  Права 2/3: Предмети  -->
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--  ==================== ЛІВА ПАНЕЛЬ: ВАЛЮТА ====================  -->
+                                <Border
+                                    Grid.Column="0"
+                                    Margin="0,0,8,0"
+                                    Padding="12,10"
+                                    Background="#8A8A8A"
+                                    CornerRadius="8">
+                                    <StackPanel>
+                                        <TextBlock
+                                            Margin="0,0,0,10"
+                                            HorizontalAlignment="Center"
+                                            FontSize="9"
+                                            FontWeight="Bold"
+                                            Foreground="#555"
+                                            Text="{DynamicResource m_Currency}" />
+
+                                        <!--  PP  -->
+                                        <Grid Margin="0,0,0,6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="60" />
+                                            </Grid.ColumnDefinitions>
                                             <TextBlock
-                                                x:Name="TxtRollTitle"
-                                                HorizontalAlignment="Center"
-                                                FontSize="9"
-                                                Foreground="#888"
-                                                Text="ROLL" />
-                                            <TextBlock
-                                                x:Name="TxtRollResult"
-                                                HorizontalAlignment="Center"
-                                                FontSize="42"
-                                                FontWeight="Bold"
-                                                Foreground="White"
-                                                Text="20" />
-                                            <TextBlock
-                                                x:Name="TxtRollDetails"
-                                                HorizontalAlignment="Center"
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center"
                                                 FontSize="10"
                                                 Foreground="#555"
-                                                Text="15 + 5" />
-                                            <Button
-                                                Width="40"
-                                                Margin="0,10,0,0"
-                                                Background="#444"
+                                                Text="{DynamicResource m_Platinum}" />
+                                            <TextBox
+                                                x:Name="TxtPlatinum"
+                                                Grid.Column="1"
+                                                HorizontalContentAlignment="Center"
+                                                Background="#666"
                                                 BorderThickness="0"
-                                                Click="CloseRoll_Click"
-                                                Content="OK"
-                                                Foreground="White" />
-                                        </StackPanel>
+                                                FontWeight="Bold"
+                                                Foreground="White"
+                                                LostFocus="Currency_LostFocus"
+                                                PreviewTextInput="NumberValidationTextBox"
+                                                Text="0"
+                                                TextChanged="Currency_TextChanged" />
+                                        </Grid>
+
+                                        <!--  GP  -->
+                                        <Grid Margin="0,0,0,6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="60" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center"
+                                                FontSize="10"
+                                                Foreground="#FFD700"
+                                                Text="{DynamicResource m_Gold}" />
+                                            <TextBox
+                                                x:Name="TxtGold"
+                                                Grid.Column="1"
+                                                HorizontalContentAlignment="Center"
+                                                Background="#666"
+                                                BorderThickness="0"
+                                                FontWeight="Bold"
+                                                Foreground="White"
+                                                LostFocus="Currency_LostFocus"
+                                                PreviewTextInput="NumberValidationTextBox"
+                                                Text="0"
+                                                TextChanged="Currency_TextChanged" />
+                                        </Grid>
+
+                                        <!--  EP  -->
+                                        <Grid Margin="0,0,0,6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="60" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center"
+                                                FontSize="10"
+                                                Foreground="#AADDAA"
+                                                Text="{DynamicResource m_Electrum}" />
+                                            <TextBox
+                                                x:Name="TxtElectrum"
+                                                Grid.Column="1"
+                                                HorizontalContentAlignment="Center"
+                                                Background="#666"
+                                                BorderThickness="0"
+                                                FontWeight="Bold"
+                                                Foreground="White"
+                                                LostFocus="Currency_LostFocus"
+                                                PreviewTextInput="NumberValidationTextBox"
+                                                Text="0"
+                                                TextChanged="Currency_TextChanged" />
+                                        </Grid>
+
+                                        <!--  SP  -->
+                                        <Grid Margin="0,0,0,6">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="60" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center"
+                                                FontSize="10"
+                                                Foreground="White"
+                                                Text="{DynamicResource m_Silver}" />
+                                            <TextBox
+                                                x:Name="TxtSilver"
+                                                Grid.Column="1"
+                                                HorizontalContentAlignment="Center"
+                                                Background="#666"
+                                                BorderThickness="0"
+                                                FontWeight="Bold"
+                                                Foreground="White"
+                                                LostFocus="Currency_LostFocus"
+                                                PreviewTextInput="NumberValidationTextBox"
+                                                Text="0"
+                                                TextChanged="Currency_TextChanged" />
+                                        </Grid>
+
+                                        <!--  CP  -->
+                                        <Grid Margin="0,0,0,12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="60" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center"
+                                                FontSize="10"
+                                                Foreground="#CD7F32"
+                                                Text="{DynamicResource m_Copper}" />
+                                            <TextBox
+                                                x:Name="TxtCopper"
+                                                Grid.Column="1"
+                                                HorizontalContentAlignment="Center"
+                                                Background="#666"
+                                                BorderThickness="0"
+                                                FontWeight="Bold"
+                                                Foreground="White"
+                                                LostFocus="Currency_LostFocus"
+                                                PreviewTextInput="NumberValidationTextBox"
+                                                Text="0"
+                                                TextChanged="Currency_TextChanged" />
+                                        </Grid>
+
+                                        <!--  Загальна сума  -->
+                                        <Border
+                                            Padding="8,6"
+                                            Background="#666"
+                                            CornerRadius="6">
+                                            <StackPanel>
+                                                <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    FontSize="8"
+                                                    Foreground="#555"
+                                                    Text="{DynamicResource m_CurrencyTotal}" />
+                                                <TextBlock
+                                                    x:Name="LblTotalGp"
+                                                    HorizontalAlignment="Center"
+                                                    FontSize="12"
+                                                    FontWeight="Bold"
+                                                    Foreground="#FFD700"
+                                                    Text="0.00 gp" />
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!--  ==================== ПРАВА ПАНЕЛЬ: ПРЕДМЕТИ ====================  -->
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <!--  Кнопка "Додати предмет"  -->
+                                    <Button
+                                        x:Name="BtnOpenItemForm"
+                                        Grid.Row="0"
+                                        Margin="0,0,0,6"
+                                        Padding="10,5"
+                                        HorizontalAlignment="Right"
+                                        Background="#2b5c8f"
+                                        BorderThickness="0"
+                                        Click="BtnOpenItemForm_Click"
+                                        Content="{DynamicResource m_AddItem}"
+                                        FontWeight="Bold"
+                                        Foreground="White">
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="5" />
+                                            </Style>
+                                        </Button.Resources>
+                                    </Button>
+
+                                    <!--  Список предметів з прокруткою  -->
+                                    <ScrollViewer
+                                        Grid.Row="1"
+                                        MaxHeight="180"
+                                        VerticalScrollBarVisibility="Auto">
+                                        <ItemsControl x:Name="ItemsItemsControl">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border
+                                                        Margin="0,0,0,5"
+                                                        Padding="10,8"
+                                                        Background="#8A8A8A"
+                                                        CornerRadius="6">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <StackPanel Grid.Column="0">
+                                                                <!--  Рядок 1: Назва + Qty + Uses  -->
+                                                                <StackPanel Margin="0,0,0,4" Orientation="Horizontal">
+                                                                    <TextBlock
+                                                                        VerticalAlignment="Center"
+                                                                        FontSize="14"
+                                                                        FontWeight="Bold"
+                                                                        Foreground="White"
+                                                                        Text="{Binding Name}" />
+                                                                    <!--  Qty badge  -->
+                                                                    <Border
+                                                                        Margin="10,0,5,0"
+                                                                        Padding="6,2"
+                                                                        VerticalAlignment="Center"
+                                                                        Background="#8A8A8A"
+                                                                        CornerRadius="4">
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock
+                                                                                FontSize="9"
+                                                                                Foreground="#666"
+                                                                                Text="Qty " />
+                                                                            <TextBlock
+                                                                                FontSize="9"
+                                                                                FontWeight="Bold"
+                                                                                Foreground="White"
+                                                                                Text="{Binding Qty}" />
+                                                                        </StackPanel>
+                                                                    </Border>
+                                                                    <!--  Uses — редагований бейдж  -->
+                                                                    <Border
+                                                                        Margin="0,0,5,0"
+                                                                        Padding="6,2"
+                                                                        VerticalAlignment="Center"
+                                                                        Background="#8A8A8A"
+                                                                        CornerRadius="4">
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock
+                                                                                Margin="0,0,4,0"
+                                                                                VerticalAlignment="Center"
+                                                                                FontSize="9"
+                                                                                Foreground="#666"
+                                                                                Text="Uses" />
+                                                                            <TextBox
+                                                                                Width="30"
+                                                                                HorizontalContentAlignment="Center"
+                                                                                Background="Transparent"
+                                                                                BorderThickness="0"
+                                                                                FontSize="9"
+                                                                                FontWeight="Bold"
+                                                                                Foreground="White"
+                                                                                LostFocus="TxtItemUsesInline_LostFocus"
+                                                                                Tag="{Binding}"
+                                                                                Text="{Binding Uses, UpdateSourceTrigger=PropertyChanged}" />
+                                                                        </StackPanel>
+                                                                    </Border>
+                                                                </StackPanel>
+                                                                <!--  Рядок 2: Опис  -->
+                                                                <TextBlock
+                                                                    FontSize="10"
+                                                                    FontStyle="Italic"
+                                                                    Foreground="#666"
+                                                                    Text="{Binding Description}"
+                                                                    TextWrapping="Wrap" />
+                                                            </StackPanel>
+
+                                                            <!--  Кнопка видалення  -->
+                                                            <Button
+                                                                Grid.Column="1"
+                                                                Margin="5,0,0,0"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Center"
+                                                                Background="Transparent"
+                                                                BorderThickness="0"
+                                                                Click="BtnDeleteItem_Click"
+                                                                Content="✕"
+                                                                Cursor="Hand"
+                                                                FontSize="14"
+                                                                FontWeight="Bold"
+                                                                Foreground="#FF5555" />
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+
+                                    <!--  ==================== ФОРМА ДОДАВАННЯ (overlay) ====================  -->
+                                    <Border
+                                        x:Name="ItemCreationForm"
+                                        Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        Padding="15"
+                                        Panel.ZIndex="10"
+                                        Background="#8A8A8A"
+                                        CornerRadius="8"
+                                        Visibility="Collapsed">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <ScrollViewer
+                                                Grid.Row="0"
+                                                Margin="0,0,0,5"
+                                                VerticalScrollBarVisibility="Auto">
+                                                <StackPanel>
+
+                                                    <!--  Item Name  -->
+                                                    <StackPanel Margin="0,0,0,10">
+                                                        <TextBlock
+                                                            Margin="0,0,0,3"
+                                                            FontSize="9"
+                                                            Foreground="#555"
+                                                            Text="{DynamicResource m_ItemNameLabel}" />
+                                                        <TextBox
+                                                            x:Name="TxtItemName"
+                                                            Padding="5"
+                                                            Background="#444"
+                                                            BorderBrush="#444"
+                                                            FontSize="13"
+                                                            FontWeight="Bold"
+                                                            Foreground="White" />
+                                                    </StackPanel>
+
+                                                    <!--  Qty + Uses left  -->
+                                                    <Grid Margin="0,0,0,10">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                                                            <TextBlock
+                                                                Margin="0,0,0,3"
+                                                                FontSize="9"
+                                                                Foreground="#555"
+                                                                Text="{DynamicResource m_QtyLabel}" />
+                                                            <TextBox
+                                                                x:Name="TxtItemQty"
+                                                                Padding="5"
+                                                                HorizontalContentAlignment="Center"
+                                                                Background="#444"
+                                                                BorderBrush="#444"
+                                                                Foreground="White"
+                                                                PreviewTextInput="NumberValidationTextBox"
+                                                                Text="1" />
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Column="1">
+                                                            <TextBlock
+                                                                Margin="0,0,0,3"
+                                                                FontSize="9"
+                                                                Foreground="#555"
+                                                                Text="{DynamicResource m_UsesLabel}" />
+                                                            <TextBox
+                                                                x:Name="TxtItemUses"
+                                                                Padding="5"
+                                                                HorizontalContentAlignment="Center"
+                                                                Background="#444"
+                                                                BorderBrush="#444"
+                                                                Foreground="White"
+                                                                Text="" />
+                                                        </StackPanel>
+                                                    </Grid>
+
+                                                    <!--  Description  -->
+                                                    <StackPanel>
+                                                        <TextBlock
+                                                            Margin="0,0,0,3"
+                                                            FontSize="9"
+                                                            Foreground="#555"
+                                                            Text="{DynamicResource m_DescriptionLabel}" />
+                                                        <TextBox
+                                                            x:Name="TxtItemDescription"
+                                                            Height="80"
+                                                            Padding="5"
+                                                            AcceptsReturn="True"
+                                                            Background="#444"
+                                                            BorderBrush="#444"
+                                                            Foreground="White"
+                                                            TextWrapping="Wrap"
+                                                            VerticalScrollBarVisibility="Auto" />
+                                                    </StackPanel>
+
+                                                </StackPanel>
+                                            </ScrollViewer>
+
+                                            <!--  Кнопки знизу  -->
+                                            <Border
+                                                Grid.Row="1"
+                                                Padding="0,10,0,0"
+                                                Background="#8A8A8A">
+                                                <Grid>
+                                                    <Button
+                                                        x:Name="BtnItemCancel"
+                                                        Padding="15,5"
+                                                        HorizontalAlignment="Left"
+                                                        Background="#444"
+                                                        BorderThickness="0"
+                                                        Click="BtnItemCancel_Click"
+                                                        Content="{DynamicResource m_Cancel}"
+                                                        Foreground="White">
+                                                        <Button.Resources>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="CornerRadius" Value="4" />
+                                                            </Style>
+                                                        </Button.Resources>
+                                                    </Button>
+                                                    <Button
+                                                        x:Name="BtnItemDone"
+                                                        Padding="25,7"
+                                                        HorizontalAlignment="Right"
+                                                        Background="#2b5c8f"
+                                                        BorderThickness="0"
+                                                        Click="BtnItemDone_Click"
+                                                        Content="{DynamicResource m_Done}"
+                                                        FontWeight="Bold"
+                                                        Foreground="White">
+                                                        <Button.Resources>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="CornerRadius" Value="4" />
+                                                            </Style>
+                                                        </Button.Resources>
+                                                    </Button>
+                                                </Grid>
+                                            </Border>
+                                        </Grid>
                                     </Border>
                                 </Grid>
                             </Grid>
                         </TabItem>
 
-                        <TabItem Header="Attacks ⚔️">
-                            <Grid Margin="10">
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Foreground="White"
-                                    Text="Тут будуть атаки" />
-                            </Grid>
-                        </TabItem>
-
-                        <TabItem Header="Spells ✨">
-                            <Grid Margin="10">
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Foreground="White"
-                                    Text="Тут буде книга заклинань" />
-                            </Grid>
-                        </TabItem>
-
-                        <TabItem Header="Items 💼">
-                            <Grid Margin="10">
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Foreground="White"
-                                    Text="Тут буде інвентар" />
-                            </Grid>
-                        </TabItem>
-
-                        <TabItem Header="Bio 📜">
+                        <TabItem Header="{DynamicResource m_TabBio}">
                             <Grid Margin="10">
                                 <Grid Margin="10">
                                     <Grid.ColumnDefinitions>
@@ -789,10 +1588,155 @@
                                 </Grid>
                             </Grid>
                         </TabItem>
+                        <TabItem Header="{DynamicResource m_TabHistory}">
+                            <Grid Margin="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
 
+                                <!--  Заголовок + кнопка очистки  -->
+                                <Grid Grid.Row="0" Margin="0,0,0,8">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="10"
+                                        FontWeight="Bold"
+                                        Foreground="#888"
+                                        Text="{DynamicResource m_RollHistory}" />
+                                    <Button
+                                        Padding="8,3"
+                                        HorizontalAlignment="Right"
+                                        Background="#444"
+                                        BorderThickness="0"
+                                        Click="BtnClearHistory_Click"
+                                        Content="{DynamicResource m_ClearHistory}"
+                                        FontSize="9"
+                                        Foreground="#AAA">
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="4" />
+                                            </Style>
+                                        </Button.Resources>
+                                    </Button>
+                                </Grid>
+
+                                <!--  Список кидків з прокруткою  -->
+                                <ScrollViewer
+                                    x:Name="HistoryScrollViewer"
+                                    Grid.Row="1"
+                                    VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl x:Name="RollHistoryControl">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border
+                                                    Margin="0,0,0,5"
+                                                    Padding="10,8"
+                                                    Background="#8A8A8A"
+                                                    CornerRadius="6">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <!--  Номер кидка  -->
+                                                        <Border
+                                                            Grid.Column="0"
+                                                            Width="24"
+                                                            Height="24"
+                                                            Margin="0,0,10,0"
+                                                            Background="#666"
+                                                            CornerRadius="12">
+                                                            <TextBlock
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                FontSize="8"
+                                                                Foreground="White"
+                                                                Text="{Binding Index}" />
+                                                        </Border>
+
+                                                        <!--  Назва та деталі  -->
+                                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                            <TextBlock
+                                                                FontSize="11"
+                                                                FontWeight="Bold"
+                                                                Foreground="White"
+                                                                Text="{Binding Title}" />
+                                                            <TextBlock
+                                                                FontSize="9"
+                                                                Foreground="White"
+                                                                Text="{Binding Details}" />
+                                                        </StackPanel>
+
+                                                        <!--  Результат  -->
+                                                        <Border
+                                                            Grid.Column="2"
+                                                            Margin="10,0,0,0"
+                                                            Padding="10,4"
+                                                            Background="{Binding ResultColor}"
+                                                            CornerRadius="6">
+                                                            <TextBlock
+                                                                HorizontalAlignment="Center"
+                                                                FontSize="18"
+                                                                FontWeight="Bold"
+                                                                Foreground="White"
+                                                                Text="{Binding Result}" />
+                                                        </Border>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Grid>
+                        </TabItem>
                     </TabControl>
                 </Grid>
             </Border>
         </Viewbox>
+        <Grid
+            x:Name="RollOverlay"
+            Grid.ColumnSpan="2"
+            Background="#A6000000"
+            Visibility="Collapsed">
+            <Border
+                Width="130"
+                Height="130"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="#2D2D2D"
+                CornerRadius="12">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock
+                        x:Name="TxtRollTitle"
+                        HorizontalAlignment="Center"
+                        FontSize="9"
+                        Foreground="#888"
+                        Text="ROLL" />
+                    <TextBlock
+                        x:Name="TxtRollResult"
+                        HorizontalAlignment="Center"
+                        FontSize="42"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Text="20" />
+                    <TextBlock
+                        x:Name="TxtRollDetails"
+                        HorizontalAlignment="Center"
+                        FontSize="10"
+                        Foreground="#555"
+                        Text="15 + 5" />
+                    <Button
+                        Width="40"
+                        Margin="0,10,0,0"
+                        Background="#444"
+                        BorderThickness="0"
+                        Click="CloseRoll_Click"
+                        Content="OK"
+                        Foreground="White" />
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Page>
