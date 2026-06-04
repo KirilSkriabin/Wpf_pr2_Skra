@@ -759,7 +759,7 @@
                                                                     Margin="0,0,2,0"
                                                                     FontSize="12"
                                                                     Foreground="White"
-                                                                    Text="CASTING TIME ➔ " />
+                                                                    Text="{DynamicResource m_CastingTime}" />
                                                                 <TextBlock
                                                                     Margin="0,0,15,0"
                                                                     FontSize="12"
@@ -770,7 +770,7 @@
                                                                     Margin="0,0,2,0"
                                                                     FontSize="12"
                                                                     Foreground="White"
-                                                                    Text="RANGE ➔ " />
+                                                                    Text="{DynamicResource m_Range}" />
                                                                 <TextBlock
                                                                     Margin="0,0,15,0"
                                                                     FontSize="12"
@@ -781,7 +781,7 @@
                                                                     Margin="0,0,2,0"
                                                                     FontSize="12"
                                                                     Foreground="White"
-                                                                    Text="DURATION ➔ " />
+                                                                    Text="{DynamicResource m_Duration}" />
                                                                 <TextBlock
                                                                     Margin="0,0,15,0"
                                                                     FontSize="12"
@@ -794,7 +794,7 @@
                                                                     Margin="0,0,2,0"
                                                                     FontSize="12"
                                                                     Foreground="White"
-                                                                    Text="COMPONENTS ➔ " />
+                                                                    Text="{DynamicResource m_Components}" />
                                                                 <TextBlock
                                                                     Margin="0,0,15,0"
                                                                     FontSize="12"
@@ -806,7 +806,7 @@
                                                                     VerticalAlignment="Center"
                                                                     FontSize="12"
                                                                     Foreground="White"
-                                                                    Text="DAMAGE ➔ " />
+                                                                    Text="{DynamicResource m_Damage}" />
                                                                 <Button
                                                                     Padding="8,3"
                                                                     Background="#D32F2F"
